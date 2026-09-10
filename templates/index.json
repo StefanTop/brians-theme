@@ -9,12 +9,222 @@
  */
 {
   "sections": {
-    "main": {
-      "type": "hello-world",
+    "announcement-bar": {
+      "type": "funky-announcement-bar",
+      "blocks": {
+        "message-1": {
+          "type": "message",
+          "settings": {
+            "text": "Gratis verzending vanaf €50,00"
+          }
+        },
+        "message-2": {
+          "type": "message",
+          "settings": {
+            "text": "Verzending binnen 2 werkdagen"
+          }
+        }
+      },
+      "block_order": ["message-1", "message-2"],
+      "settings": {
+        "service_label": "Klantenservice",
+        "inspiration_label": "Inspiratie"
+      }
+    },
+    "hero": {
+      "type": "funky-hero",
+      "blocks": {
+        "card-1": {
+          "type": "product_card",
+          "settings": {
+            "title": "Wandspiegel Semon",
+            "price": "€99,99",
+            "compare_at_price": "€120,00",
+            "badge": "Sale!"
+          }
+        },
+        "card-2": {
+          "type": "product_card",
+          "settings": {
+            "title": "Orange lamp",
+            "price": "€54,00",
+            "badge": "Bestseller"
+          }
+        },
+        "card-3": {
+          "type": "product_card",
+          "settings": {
+            "title": "Vaas Ripple",
+            "price": "€39,00",
+            "badge": "Nieuw"
+          }
+        }
+      },
+      "block_order": ["card-1", "card-2", "card-3"],
+      "settings": {
+        "heading": "Dopamine for your home",
+        "subheading": "Funk'y maakt gedurfde, chunky woonaccessoires die van elke ruimte een statement maken. Gemaakt voor mensen die liever opvallen dan opgaan.",
+        "button_label": "Start met winkelen",
+        "show_rating": true,
+        "rating_source": "Google",
+        "rating_text": "4.8/5 · 10.000+ tevreden klanten"
+      }
+    },
+    "benefits": {
+      "type": "funky-benefits",
+      "blocks": {
+        "benefit-1": {
+          "type": "benefit",
+          "settings": {
+            "icon": "shield",
+            "title": "Handmade in Europe",
+            "subtitle": "Kleinschalig vakmanschap"
+          }
+        },
+        "benefit-2": {
+          "type": "benefit",
+          "settings": {
+            "icon": "lock",
+            "title": "Duurzame materialen",
+            "subtitle": "Bewust geproduceerd"
+          }
+        },
+        "benefit-3": {
+          "type": "benefit",
+          "settings": {
+            "icon": "person",
+            "title": "10.000+ tevreden klanten",
+            "subtitle": "En groeiende"
+          }
+        }
+      },
+      "block_order": ["benefit-1", "benefit-2", "benefit-3"],
+      "settings": {}
+    },
+    "categories": {
+      "type": "funky-categories",
+      "blocks": {
+        "category-1": {
+          "type": "category",
+          "settings": {
+            "title": "Meubels"
+          }
+        },
+        "category-2": {
+          "type": "category",
+          "settings": {
+            "title": "Spiegels"
+          }
+        },
+        "category-3": {
+          "type": "category",
+          "settings": {
+            "title": "Verlichting"
+          }
+        },
+        "category-4": {
+          "type": "category",
+          "settings": {
+            "title": "Accessoires"
+          }
+        }
+      },
+      "block_order": ["category-1", "category-2", "category-3", "category-4"],
+      "settings": {
+        "heading": "Onze categorieën"
+      }
+    },
+    "featured-product": {
+      "type": "funky-featured-product",
+      "settings": {
+        "eyebrow": "Uitgelicht product",
+        "title": "Vase Ripple",
+        "description": "A chunky little sun for your side table. Hand-finished, mouth-blown glass, and just enough glow to make Tuesday feel like a Friday.",
+        "price": "€39,00",
+        "button_label": "Bekijk product",
+        "link_label": "Alle meubels"
+      }
+    },
+    "newsletter": {
+      "type": "funky-newsletter",
+      "settings": {
+        "heading": "Ontvang nu 10% korting",
+        "text": "Nieuw hier? Welkom! Maak een account aan en profiteer direct van 10% korting op je eerste bestelling.",
+        "email_placeholder": "Jouw e-mailadres",
+        "button_label": "Registreren",
+        "success_text": "Bedankt! Check je inbox voor je kortingscode."
+      }
+    },
+    "inspiration": {
+      "type": "funky-inspiration",
+      "blocks": {
+        "image-1": { "type": "image", "settings": {} },
+        "image-2": { "type": "image", "settings": {} },
+        "image-3": { "type": "image", "settings": {} },
+        "image-4": { "type": "image", "settings": {} }
+      },
+      "block_order": ["image-1", "image-2", "image-3", "image-4"],
+      "settings": {
+        "heading": "Take the inspiration",
+        "text_1": "Lorem ipsum dolor sit amet consectetur. Eu pellentesque in platea feugiat netus et lorem.",
+        "text_2": "Nisl tellus justo duis velit. Neque aenean auctor egestas mauris commodo consequat in vitae.",
+        "button_label": "Verder winkelen",
+        "link_label": "Bekijk alle inspiratie"
+      }
+    },
+    "reviews": {
+      "type": "funky-reviews",
+      "blocks": {
+        "testimonial-1": {
+          "type": "testimonial",
+          "settings": {
+            "name": "Nina P.",
+            "text": "Snelle levering en de kleur is nog mooier in het echt. Past precies in ons interieur."
+          }
+        },
+        "testimonial-2": {
+          "type": "testimonial",
+          "settings": {
+            "name": "Daan V.",
+            "text": "Verrassend stevig voor zo'n speels design. Zou zo weer bestellen."
+          }
+        },
+        "testimonial-3": {
+          "type": "testimonial",
+          "settings": {
+            "name": "Lotte H.",
+            "text": "Klantenservice reageerde super snel toen ik een vraag had. Top ervaring."
+          }
+        }
+      },
+      "block_order": ["testimonial-1", "testimonial-2", "testimonial-3"],
+      "settings": {
+        "heading": "Onze klanten aan het woord"
+      }
+    },
+    "photo-strip": {
+      "type": "funky-photo-strip",
+      "blocks": {
+        "photo-1": { "type": "photo", "settings": {} },
+        "photo-2": { "type": "photo", "settings": {} },
+        "photo-3": { "type": "photo", "settings": {} },
+        "photo-4": { "type": "photo", "settings": {} },
+        "photo-5": { "type": "photo", "settings": {} },
+        "photo-6": { "type": "photo", "settings": {} }
+      },
+      "block_order": ["photo-1", "photo-2", "photo-3", "photo-4", "photo-5", "photo-6"],
       "settings": {}
     }
   },
   "order": [
-    "main"
+    "announcement-bar",
+    "hero",
+    "benefits",
+    "categories",
+    "featured-product",
+    "newsletter",
+    "inspiration",
+    "reviews",
+    "photo-strip"
   ]
 }

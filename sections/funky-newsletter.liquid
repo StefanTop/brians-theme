@@ -1,0 +1,127 @@
+{% comment %}
+  Dark discount / newsletter panel using Shopify's built-in customer signup
+  form so submissions actually create a customer account.
+{% endcomment %}
+
+<section class="funky-newsletter">
+ <div class="funky-newsletter__inner">
+  <h2 class="funky-newsletter__heading">{{ section.settings.heading }}</h2>
+  <p class="funky-newsletter__text">{{ section.settings.text }}</p>
+
+  {% form 'customer', class: 'funky-newsletter__form' %}
+    {% if form.posted_successfully? %}
+      <p class="funky-newsletter__success">{{ section.settings.success_text }}</p>
+    {% endif %}
+    <input type="hidden" name="contact[tags]" value="newsletter">
+    <div class="funky-newsletter__field">
+      <input
+        type="email"
+        name="contact[email]"
+        placeholder="{{ section.settings.email_placeholder }}"
+        required
+        class="funky-newsletter__input"
+      >
+      <button type="submit" class="funky-button funky-button--primary">{{ section.settings.button_label }}</button>
+    </div>
+  {% endform %}
+ </div>
+</section>
+
+{% stylesheet %}
+  .funky-newsletter {
+    background-color: var(--funky-navy, #1f2049);
+    color: var(--funky-cream, #fcfcf7);
+    font-family: var(--funky-font-body, "Inter", sans-serif);
+  }
+
+  .funky-newsletter__inner {
+    max-width: 1326px;
+    margin: 0 auto;
+    padding: 70px 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .funky-newsletter__heading {
+    margin: 0;
+    font-family: var(--funky-font-display, "Baloo 2", sans-serif);
+    font-size: 32px;
+    font-weight: 800;
+  }
+
+  .funky-newsletter__text {
+    margin: 0;
+    font-size: 15px;
+  }
+
+  .funky-newsletter__form {
+    margin-top: 8px;
+  }
+
+  .funky-newsletter__field {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .funky-newsletter__input {
+    flex: 1;
+    min-width: 220px;
+    padding: 14px 18px;
+    border-radius: 999px;
+    border: none;
+    font-size: 14px;
+  }
+
+  .funky-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    padding: 16px 32px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 15px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 200ms ease-out, background-color 200ms ease-out;
+  }
+
+  .funky-button--primary {
+    background-color: var(--funky-orange, #ff6a1f);
+    color: var(--funky-cream, #fcfcf7);
+  }
+
+  .funky-button--primary:hover {
+    transform: scale(1.05);
+    background-color: var(--funky-orange-dark, #e8550f);
+  }
+
+  .funky-newsletter__success {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--funky-cream, #fcfcf7);
+  }
+
+  @media (max-width: 700px) {
+    .funky-newsletter__inner {
+      padding: 40px 28px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Funky newsletter",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Ontvang nu 10% korting" },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Nieuw hier? Welkom! Maak een account aan en profiteer direct van 10% korting op je eerste bestelling." },
+    { "type": "text", "id": "email_placeholder", "label": "Email placeholder", "default": "Jouw e-mailadres" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Registreren" },
+    { "type": "text", "id": "success_text", "label": "Success message", "default": "Bedankt! Check je inbox voor je kortingscode." }
+  ],
+  "presets": [{ "name": "Funky newsletter" }]
+}
+{% endschema %}

@@ -1,3 +1,11 @@
+{% # Funky theme fonts: Inter for body copy, Baloo 2 for chunky display headings %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Baloo+2:wght@600;700;800&display=swap"
+  rel="stylesheet"
+>
+
 {% style %}
   {% # Loads all font variantions with display: swap %}
   {{ settings.type_primary_font | font_face: font_display: 'swap' }}
@@ -14,5 +22,11 @@
     --color-background: {{ settings.background_color }};
     --color-foreground: {{ settings.foreground_color }};
     --style-border-radius-inputs: {{ settings.input_corner_radius }}px;
+    --funky-navy: #1f2049;
+    --funky-cream: #fcfcf7;
+    --funky-orange: #ff6a1f;
+    --funky-orange-dark: #e8550f;
+    --funky-font-body: "Inter", sans-serif;
+    --funky-font-display: "Baloo 2", "Inter", sans-serif;
   }
 {% endstyle %}

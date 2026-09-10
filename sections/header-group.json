@@ -12,11 +12,18 @@
   "name": "t:general.header",
   "sections": {
     "header": {
-      "type": "header",
+      "type": "funky-header",
+      "blocks": {
+        "nav-1": { "type": "nav_link", "settings": { "title": "Meubels", "url": "#meubels" } },
+        "nav-2": { "type": "nav_link", "settings": { "title": "Spiegels", "url": "#spiegels" } },
+        "nav-3": { "type": "nav_link", "settings": { "title": "Verlichting", "url": "#verlichting" } },
+        "nav-4": { "type": "nav_link", "settings": { "title": "Accessoires", "url": "#accessoires" } }
+      },
+      "block_order": ["nav-1", "nav-2", "nav-3", "nav-4"],
       "settings": {}
     }
   },
   "order": [
     "header"
-  ],
+  ]
 }

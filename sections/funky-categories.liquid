@@ -1,0 +1,127 @@
+{% comment %}
+  Category grid: each block links to a collection with an image and label.
+{% endcomment %}
+
+<section class="funky-categories">
+  <div class="funky-categories__inner">
+    {% if section.settings.heading != blank %}
+      <h2 class="funky-categories__heading">{{ section.settings.heading }}</h2>
+    {% endif %}
+
+    <div class="funky-categories__grid">
+      {% for block in section.blocks %}
+        <a
+          href="{{ block.settings.collection.url | default: '#' }}"
+          class="funky-categories__card"
+          {{ block.shopify_attributes }}
+        >
+          <div class="funky-categories__media">
+            {% if block.settings.image %}
+              {{ block.settings.image | image_url: width: 600 | image_tag }}
+            {% elsif block.settings.collection.featured_image %}
+              {{ block.settings.collection.featured_image | image_url: width: 600 | image_tag }}
+            {% endif %}
+          </div>
+          <div class="funky-categories__label">
+            {{ block.settings.title | default: block.settings.collection.title }}
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .funky-categories {
+    font-family: var(--funky-font-body, "Inter", sans-serif);
+  }
+
+  .funky-categories__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    max-width: 1326px;
+    margin: 0 auto;
+    padding: 64px 48px;
+  }
+
+  .funky-categories__heading {
+    margin: 0;
+    font-family: var(--funky-font-display, "Baloo 2", sans-serif);
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--funky-navy, #1f2049);
+  }
+
+  .funky-categories__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+  }
+
+  .funky-categories__card {
+    display: flex;
+    flex-direction: column;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1.5px solid rgba(31, 32, 73, 0.15);
+    background: #fff;
+    text-decoration: none;
+  }
+
+  .funky-categories__media {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background-color: #f0f0f2;
+  }
+
+  .funky-categories__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 350ms ease;
+  }
+
+  .funky-categories__card:hover .funky-categories__media img {
+    transform: scale(1.06);
+  }
+
+  .funky-categories__label {
+    padding: 18px 20px;
+    font-family: var(--funky-font-display, "Baloo 2", sans-serif);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--funky-navy, #1f2049);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Funky categories",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Onze categorieën" }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Collection" },
+        { "type": "text", "id": "title", "label": "Title override" },
+        { "type": "image_picker", "id": "image", "label": "Image override" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Funky categories",
+      "blocks": [
+        { "type": "category", "settings": { "title": "Meubels" } },
+        { "type": "category", "settings": { "title": "Spiegels" } },
+        { "type": "category", "settings": { "title": "Verlichting" } },
+        { "type": "category", "settings": { "title": "Accessoires" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

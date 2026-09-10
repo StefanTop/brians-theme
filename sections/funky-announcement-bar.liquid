@@ -1,0 +1,123 @@
+{% comment %}
+  Thin utility bar shown above the header: shipping messages on the left,
+  quick links (customer service, inspiration) on the right.
+{% endcomment %}
+
+<div class="funky-announcement">
+  <div class="funky-announcement__inner">
+    <div class="funky-announcement__messages">
+      {% for block in section.blocks %}
+        <span class="funky-announcement__message" {{ block.shopify_attributes }}>{{ block.settings.text }}</span>
+      {% endfor %}
+    </div>
+
+    <div class="funky-announcement__links">
+      {% if section.settings.service_url != blank %}
+        <a href="{{ section.settings.service_url }}" class="funky-announcement__link">{{ section.settings.service_label }}</a>
+      {% endif %}
+      {% if section.settings.inspiration_url != blank %}
+        <a href="{{ section.settings.inspiration_url }}" class="funky-announcement__link">{{ section.settings.inspiration_label }}</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .funky-announcement {
+    background-color: #eaeaf4;
+    color: var(--funky-navy, #1f2049);
+    font-family: var(--funky-font-body, "Inter", sans-serif);
+    font-size: 14px;
+    font-weight: 500;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .funky-announcement__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    max-width: 1326px;
+    margin: 0 auto;
+    padding: 10px 32px;
+  }
+
+  .funky-announcement__messages {
+    display: inline-flex;
+    align-items: center;
+    gap: 48px;
+    overflow: hidden;
+  }
+
+  .funky-announcement__links {
+    display: inline-flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .funky-announcement__link {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--funky-navy, #1f2049);
+    text-decoration: none;
+  }
+
+  .funky-announcement__link:hover {
+    color: var(--funky-orange-dark, #e8550f);
+  }
+
+  @media (max-width: 700px) {
+    .funky-announcement__messages span:not(:first-child) {
+      display: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Funky announcement bar",
+  "settings": [
+    {
+      "type": "text",
+      "id": "service_label",
+      "label": "Customer service label",
+      "default": "Klantenservice"
+    },
+    {
+      "type": "url",
+      "id": "service_url",
+      "label": "Customer service link"
+    },
+    {
+      "type": "text",
+      "id": "inspiration_label",
+      "label": "Inspiration label",
+      "default": "Inspiratie"
+    },
+    {
+      "type": "url",
+      "id": "inspiration_url",
+      "label": "Inspiration link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "message",
+      "name": "Message",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "Gratis verzending vanaf €50,00" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Funky announcement bar",
+      "blocks": [
+        { "type": "message", "settings": { "text": "Gratis verzending vanaf €50,00" } },
+        { "type": "message", "settings": { "text": "Verzending binnen 2 werkdagen" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

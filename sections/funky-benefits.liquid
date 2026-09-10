@@ -1,0 +1,131 @@
+{% comment %}
+  Trust bar with up to three benefit callouts (icon, title, subtitle).
+{% endcomment %}
+
+<section class="funky-benefits">
+ <div class="funky-benefits__inner">
+  {% for block in section.blocks %}
+    <div class="funky-benefits__item" {{ block.shopify_attributes }}>
+      <span class="funky-benefits__icon">
+        {% case block.settings.icon %}
+          {% when 'lock' %}
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--funky-navy, #1f2049)" stroke-width="1.8">
+              <path d="M17 8V6a5 5 0 0 0-10 0v2"></path>
+              <rect x="5" y="8" width="14" height="12" rx="2"></rect>
+            </svg>
+          {% when 'person' %}
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--funky-navy, #1f2049)" stroke-width="1.8">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          {% when 'leaf' %}
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--funky-navy, #1f2049)" stroke-width="1.8">
+              <path d="M5 21c0-8 6-15 15-15 0 9-7 15-15 15Z"></path>
+              <path d="M5 21c0-4 2-8 6-11"></path>
+            </svg>
+          {% when 'heart' %}
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--funky-navy, #1f2049)" stroke-width="1.8">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+            </svg>
+          {% when 'truck' %}
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--funky-navy, #1f2049)" stroke-width="1.8">
+              <rect x="1" y="6" width="14" height="11" rx="1"></rect>
+              <path d="M15 10h4l3 3v4h-7z"></path>
+              <circle cx="6" cy="19" r="2"></circle>
+              <circle cx="17" cy="19" r="2"></circle>
+            </svg>
+          {% else %}
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--funky-navy, #1f2049)" stroke-width="1.8">
+              <path d="M12 2 3 7v6c0 5 4 9 9 9s9-4 9-9V7l-9-5Z"></path>
+            </svg>
+        {% endcase %}
+      </span>
+      <div>
+        <div class="funky-benefits__title">{{ block.settings.title }}</div>
+        <div class="funky-benefits__subtitle">{{ block.settings.subtitle }}</div>
+      </div>
+    </div>
+  {% endfor %}
+ </div>
+</section>
+
+{% stylesheet %}
+  .funky-benefits {
+    border-bottom: 1.5px solid rgba(31, 32, 73, 0.15);
+    font-family: var(--funky-font-body, "Inter", sans-serif);
+  }
+
+  .funky-benefits__inner {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    justify-items: center;
+    align-items: stretch;
+    gap: 32px;
+    max-width: 1326px;
+    margin: 0 auto;
+    padding: 40px 48px;
+  }
+
+  .funky-benefits__item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 20px 28px;
+  }
+
+  .funky-benefits__icon {
+    flex-shrink: 0;
+    display: inline-flex;
+  }
+
+  .funky-benefits__title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--funky-navy, #1f2049);
+  }
+
+  .funky-benefits__subtitle {
+    font-size: 13px;
+    color: #6f6f80;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Funky benefits",
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "shield", "label": "Shield" },
+            { "value": "lock", "label": "Lock" },
+            { "value": "person", "label": "Person" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "truck", "label": "Truck" }
+          ],
+          "default": "shield"
+        },
+        { "type": "text", "id": "title", "label": "Title", "default": "Benefit" },
+        { "type": "text", "id": "subtitle", "label": "Subtitle" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Funky benefits",
+      "blocks": [
+        { "type": "benefit", "settings": { "icon": "shield", "title": "Handmade in Europe", "subtitle": "Kleinschalig vakmanschap" } },
+        { "type": "benefit", "settings": { "icon": "lock", "title": "Duurzame materialen", "subtitle": "Bewust geproduceerd" } },
+        { "type": "benefit", "settings": { "icon": "person", "title": "10.000+ tevreden klanten", "subtitle": "En groeiende" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
