@@ -1,0 +1,310 @@
+{% comment %}
+  Funky site footer: brand column with address and socials, category and
+  customer service link columns, a trust column and an Instagram grid,
+  followed by a copyright bar with a back-to-top link.
+{% endcomment %}
+
+{% liquid
+  assign nav_links = section.blocks | where: 'type', 'nav_link'
+  assign service_links = section.blocks | where: 'type', 'service_link'
+  assign trust_lines = section.blocks | where: 'type', 'trust_line'
+  assign social_links = section.blocks | where: 'type', 'social_link'
+  assign instagram_images = section.blocks | where: 'type', 'instagram_image'
+%}
+
+<footer class="funky-footer">
+  <div class="funky-footer__grid">
+    <div class="funky-footer__brand">
+      <a href="{{ routes.root_url }}" class="funky-footer__logo">
+        {% if section.settings.logo %}
+          {{ section.settings.logo | image_url: width: 200 | image_tag }}
+        {% else %}
+          {{ shop.name }}
+        {% endif %}
+      </a>
+      {% if section.settings.address != blank %}
+        <p class="funky-footer__address">{{ section.settings.address }}</p>
+      {% endif %}
+      {% if social_links.size > 0 %}
+        <div class="funky-footer__socials">
+          {% for block in social_links %}
+            <a href="{{ block.settings.url | default: '#' }}" class="funky-footer__social-link" {{ block.shopify_attributes }}>{{ block.settings.title }}</a>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    {% if nav_links.size > 0 %}
+      <div class="funky-footer__column">
+        <div class="funky-footer__heading">{{ section.settings.categories_heading }}</div>
+        {% for block in nav_links %}
+          <a href="{{ block.settings.url | default: '#' }}" class="funky-footer__link" {{ block.shopify_attributes }}>{{ block.settings.title }}</a>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if service_links.size > 0 %}
+      <div class="funky-footer__column">
+        <div class="funky-footer__heading">{{ section.settings.service_heading }}</div>
+        {% for block in service_links %}
+          <a href="{{ block.settings.url | default: '#' }}" class="funky-footer__link" {{ block.shopify_attributes }}>{{ block.settings.title }}</a>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if trust_lines.size > 0 %}
+      <div class="funky-footer__column">
+        <div class="funky-footer__heading">{{ section.settings.trust_heading }}</div>
+        {% for block in trust_lines %}
+          <div class="funky-footer__trust-line" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <div class="funky-footer__column funky-footer__instagram">
+      <div class="funky-footer__heading">{{ section.settings.instagram_heading }}</div>
+      {% if instagram_images.size > 0 %}
+        <div class="funky-footer__instagram-grid">
+          {% for block in instagram_images limit: 3 %}
+            <div class="funky-footer__instagram-item" {{ block.shopify_attributes }}>
+              {% if block.settings.image %}
+                {{ block.settings.image | image_url: width: 200 | image_tag }}
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+      {% if section.settings.instagram_url != blank %}
+        <a href="{{ section.settings.instagram_url }}" class="funky-footer__instagram-link">{{ section.settings.instagram_handle }}</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="funky-footer__bottom">
+    <div class="funky-footer__copyright">&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. Alle rechten voorbehouden.</div>
+    <a href="#top" class="funky-footer__back-to-top">Terug naar boven ↑</a>
+  </div>
+</footer>
+
+{% stylesheet %}
+  .funky-footer {
+    background-color: var(--funky-navy, #1f2049);
+    color: var(--funky-cream, #fcfcf7);
+    padding: 56px 48px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    font-family: var(--funky-font-body, "Inter", sans-serif);
+  }
+
+  .funky-footer__grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr 1fr 1.4fr;
+    gap: 32px;
+  }
+
+  .funky-footer__brand {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 320px;
+  }
+
+  .funky-footer__logo {
+    display: flex;
+    align-items: center;
+    font-family: var(--funky-font-display, "Baloo 2", sans-serif);
+    font-weight: 800;
+    font-size: 24px;
+    color: var(--funky-cream, #fcfcf7);
+    text-decoration: none;
+  }
+
+  .funky-footer__logo img {
+    height: 40px;
+    object-fit: contain;
+  }
+
+  .funky-footer__address {
+    margin: 0;
+    font-size: 13px;
+    color: rgba(252, 252, 247, 0.6);
+    line-height: 1.5;
+  }
+
+  .funky-footer__socials {
+    display: flex;
+    gap: 14px;
+    margin-top: 4px;
+  }
+
+  .funky-footer__social-link,
+  .funky-footer__link {
+    font-size: 14px;
+    color: var(--funky-cream, #fcfcf7);
+    text-decoration: none;
+  }
+
+  .funky-footer__social-link:hover,
+  .funky-footer__link:hover {
+    text-decoration: underline;
+  }
+
+  .funky-footer__column {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .funky-footer__heading {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: rgba(252, 252, 247, 0.6);
+  }
+
+  .funky-footer__trust-line {
+    font-size: 13px;
+    color: rgba(252, 252, 247, 0.6);
+  }
+
+  .funky-footer__instagram-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+
+  .funky-footer__instagram-item {
+    aspect-ratio: 1 / 1;
+    background-color: rgba(252, 252, 247, 0.1);
+    overflow: hidden;
+  }
+
+  .funky-footer__instagram-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .funky-footer__instagram-link {
+    font-size: 13px;
+    color: rgba(252, 252, 247, 0.6);
+    text-decoration: none;
+  }
+
+  .funky-footer__bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    border-top: 1px solid rgba(252, 252, 247, 0.2);
+    padding-top: 24px;
+  }
+
+  .funky-footer__copyright {
+    font-size: 12px;
+    color: rgba(252, 252, 247, 0.6);
+  }
+
+  .funky-footer__back-to-top {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--funky-cream, #fcfcf7);
+    text-decoration: none;
+  }
+
+  @media (max-width: 900px) {
+    .funky-footer__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .funky-footer__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .funky-footer__bottom {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Funky footer",
+  "settings": [
+    { "type": "image_picker", "id": "logo", "label": "Logo" },
+    { "type": "textarea", "id": "address", "label": "Address line", "default": "Kruisstraat 12, 1017 AB Amsterdam · Handmade in Europe · 10.000+ tevreden klanten" },
+    { "type": "text", "id": "categories_heading", "label": "Categories heading", "default": "Categorieën" },
+    { "type": "text", "id": "service_heading", "label": "Customer service heading", "default": "Klantenservice" },
+    { "type": "text", "id": "trust_heading", "label": "Trust heading", "default": "Vertrouwd door" },
+    { "type": "text", "id": "instagram_heading", "label": "Instagram heading", "default": "Volg ons op Instagram" },
+    { "type": "text", "id": "instagram_handle", "label": "Instagram handle", "default": "@funky" },
+    { "type": "url", "id": "instagram_url", "label": "Instagram link" }
+  ],
+  "blocks": [
+    {
+      "type": "nav_link",
+      "name": "Category link",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Link" },
+        { "type": "url", "id": "url", "label": "Link" }
+      ]
+    },
+    {
+      "type": "service_link",
+      "name": "Customer service link",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Link" },
+        { "type": "url", "id": "url", "label": "Link" }
+      ]
+    },
+    {
+      "type": "trust_line",
+      "name": "Trust line",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "Trust line" }
+      ]
+    },
+    {
+      "type": "social_link",
+      "name": "Social link",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Instagram" },
+        { "type": "url", "id": "url", "label": "Link" }
+      ]
+    },
+    {
+      "type": "instagram_image",
+      "name": "Instagram image",
+      "settings": [{ "type": "image_picker", "id": "image", "label": "Image" }]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Funky footer",
+      "blocks": [
+        { "type": "nav_link", "settings": { "title": "Meubels", "url": "#meubels" } },
+        { "type": "nav_link", "settings": { "title": "Spiegels", "url": "#spiegels" } },
+        { "type": "nav_link", "settings": { "title": "Verlichting", "url": "#verlichting" } },
+        { "type": "nav_link", "settings": { "title": "Accessoires", "url": "#accessoires" } },
+        { "type": "service_link", "settings": { "title": "Verzending", "url": "#verzending" } },
+        { "type": "service_link", "settings": { "title": "Retourneren", "url": "#retour" } },
+        { "type": "service_link", "settings": { "title": "Contact", "url": "#contact" } },
+        { "type": "service_link", "settings": { "title": "Privacybeleid", "url": "#privacy" } },
+        { "type": "trust_line", "settings": { "text": "★★★★★ 4.8/5 op Trustpilot" } },
+        { "type": "trust_line", "settings": { "text": "Beveiligd betalen" } },
+        { "type": "trust_line", "settings": { "text": "Winkelen met vertrouwen" } },
+        { "type": "social_link", "settings": { "title": "Instagram", "url": "#instagram" } },
+        { "type": "social_link", "settings": { "title": "Pinterest", "url": "#pinterest" } },
+        { "type": "instagram_image", "settings": {} },
+        { "type": "instagram_image", "settings": {} },
+        { "type": "instagram_image", "settings": {} }
+      ]
+    }
+  ]
+}
+{% endschema %}

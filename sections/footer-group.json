@@ -12,10 +12,34 @@
   "name": "t:general.footer",
   "sections": {
     "footer": {
-      "type": "footer",
+      "type": "funky-footer",
+      "blocks": {
+        "nav-1": { "type": "nav_link", "settings": { "title": "Meubels", "url": "#meubels" } },
+        "nav-2": { "type": "nav_link", "settings": { "title": "Spiegels", "url": "#spiegels" } },
+        "nav-3": { "type": "nav_link", "settings": { "title": "Verlichting", "url": "#verlichting" } },
+        "nav-4": { "type": "nav_link", "settings": { "title": "Accessoires", "url": "#accessoires" } },
+        "service-1": { "type": "service_link", "settings": { "title": "Verzending", "url": "#verzending" } },
+        "service-2": { "type": "service_link", "settings": { "title": "Retourneren", "url": "#retour" } },
+        "service-3": { "type": "service_link", "settings": { "title": "Contact", "url": "#contact" } },
+        "service-4": { "type": "service_link", "settings": { "title": "Privacybeleid", "url": "#privacy" } },
+        "trust-1": { "type": "trust_line", "settings": { "text": "★★★★★ 4.8/5 op Trustpilot" } },
+        "trust-2": { "type": "trust_line", "settings": { "text": "Beveiligd betalen" } },
+        "trust-3": { "type": "trust_line", "settings": { "text": "Winkelen met vertrouwen" } },
+        "social-1": { "type": "social_link", "settings": { "title": "Instagram", "url": "#instagram" } },
+        "social-2": { "type": "social_link", "settings": { "title": "Pinterest", "url": "#pinterest" } },
+        "insta-1": { "type": "instagram_image", "settings": {} },
+        "insta-2": { "type": "instagram_image", "settings": {} },
+        "insta-3": { "type": "instagram_image", "settings": {} }
+      },
+      "block_order": [
+        "nav-1", "nav-2", "nav-3", "nav-4",
+        "service-1", "service-2", "service-3", "service-4",
+        "trust-1", "trust-2", "trust-3",
+        "social-1", "social-2",
+        "insta-1", "insta-2", "insta-3"
+      ],
       "settings": {
-        "menu": "",
-        "show_payment_icons": true
+        "instagram_handle": "@funky"
       }
     }
   },
