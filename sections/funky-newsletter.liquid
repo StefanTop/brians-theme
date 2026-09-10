@@ -4,6 +4,7 @@
 {% endcomment %}
 
 <section class="funky-newsletter">
+ <div class="funky-newsletter__inner">
   <h2 class="funky-newsletter__heading">{{ section.settings.heading }}</h2>
   <p class="funky-newsletter__text">{{ section.settings.text }}</p>
 
@@ -23,20 +24,23 @@
       <button type="submit" class="funky-button funky-button--primary">{{ section.settings.button_label }}</button>
     </div>
   {% endform %}
+ </div>
 </section>
 
 {% stylesheet %}
   .funky-newsletter {
-    max-width: 720px;
-    margin: 128px auto 86px;
-    padding: 70px;
-    border-radius: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
     background-color: var(--funky-navy, #1f2049);
     color: var(--funky-cream, #fcfcf7);
     font-family: var(--funky-font-body, "Inter", sans-serif);
+  }
+
+  .funky-newsletter__inner {
+    max-width: 1326px;
+    margin: 0 auto;
+    padding: 70px 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
   }
 
   .funky-newsletter__heading {
@@ -102,8 +106,7 @@
   }
 
   @media (max-width: 700px) {
-    .funky-newsletter {
-      margin: 64px 24px;
+    .funky-newsletter__inner {
       padding: 40px 28px;
     }
   }

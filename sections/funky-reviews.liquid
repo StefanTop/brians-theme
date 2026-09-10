@@ -4,6 +4,7 @@
 {% endcomment %}
 
 <section class="funky-reviews">
+ <div class="funky-reviews__inner">
   <h2 class="funky-reviews__heading">{{ section.settings.heading }}</h2>
 
   <funky-carousel class="funky-reviews__carousel">
@@ -29,19 +30,23 @@
       </button>
     </div>
   </funky-carousel>
+ </div>
 </section>
 
 {% stylesheet %}
   .funky-reviews {
-    margin: 0 48px 96px;
-    padding: 56px 40px;
-    border-radius: 16px;
+    background-color: #f0f0f2;
+    font-family: var(--funky-font-body, "Inter", sans-serif);
+  }
+
+  .funky-reviews__inner {
+    max-width: 1326px;
+    margin: 0 auto;
+    padding: 56px 40px 96px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 40px;
-    background-color: #f0f0f2;
-    font-family: var(--funky-font-body, "Inter", sans-serif);
   }
 
   .funky-reviews__heading {
