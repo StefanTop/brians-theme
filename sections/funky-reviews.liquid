@@ -1,0 +1,104 @@
+{% comment %}
+  Customer testimonials grid on a soft grey panel.
+{% endcomment %}
+
+<section class="funky-reviews">
+  <h2 class="funky-reviews__heading">{{ section.settings.heading }}</h2>
+
+  <div class="funky-reviews__grid">
+    {% for block in section.blocks %}
+      <div class="funky-reviews__card" {{ block.shopify_attributes }}>
+        <div class="funky-reviews__stars">★★★★★</div>
+        <div class="funky-reviews__name">{{ block.settings.name }}</div>
+        <p class="funky-reviews__text">{{ block.settings.text }}</p>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .funky-reviews {
+    margin: 0 48px 96px;
+    padding: 56px 40px;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    background-color: #f0f0f2;
+  }
+
+  .funky-reviews__heading {
+    margin: 0;
+    text-align: center;
+    font-size: 34px;
+    font-weight: 800;
+    color: var(--funky-navy, #1f2049);
+  }
+
+  .funky-reviews__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+    width: 100%;
+    max-width: 1100px;
+  }
+
+  .funky-reviews__card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    border: 1.5px solid rgba(31, 32, 73, 0.15);
+    border-radius: 16px;
+    background: #fff;
+  }
+
+  .funky-reviews__stars {
+    color: var(--funky-navy, #1f2049);
+    font-size: 14px;
+    letter-spacing: 2px;
+  }
+
+  .funky-reviews__name {
+    font-weight: 700;
+    color: var(--funky-navy, #1f2049);
+    font-size: 15px;
+  }
+
+  .funky-reviews__text {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #6f6f80;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Funky reviews",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Onze klanten aan het woord" }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Name", "default": "Naam" },
+        { "type": "textarea", "id": "text", "label": "Quote" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Funky reviews",
+      "blocks": [
+        { "type": "testimonial", "settings": { "name": "Nina P.", "text": "Snelle levering en de kleur is nog mooier in het echt. Past precies in ons interieur." } },
+        { "type": "testimonial", "settings": { "name": "Daan V.", "text": "Verrassend stevig voor zo'n speels design. Zou zo weer bestellen." } },
+        { "type": "testimonial", "settings": { "name": "Lotte H.", "text": "Klantenservice reageerde super snel toen ik een vraag had. Top ervaring." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

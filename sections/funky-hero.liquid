@@ -1,0 +1,330 @@
+{% comment %}
+  Funky homepage hero: announcement bar, navy header strip is handled by the
+  theme header section; this renders the big statement banner with a headline,
+  CTA and a small rating badge over a full-bleed background image.
+{% endcomment %}
+
+<section class="funky-hero">
+  <div class="funky-hero__media">
+    {% if section.settings.background_image %}
+      {{ section.settings.background_image | image_url: width: 2000 | image_tag: loading: 'eager' }}
+    {% endif %}
+    <div class="funky-hero__scrim"></div>
+  </div>
+
+  <div class="funky-hero__content">
+    <h1 class="funky-hero__title">{{ section.settings.heading }}</h1>
+
+    {% if section.settings.subheading != blank %}
+      <p class="funky-hero__subtitle">{{ section.settings.subheading }}</p>
+    {% endif %}
+
+    {% if section.settings.button_label != blank %}
+      <a href="{{ section.settings.button_url | default: '#' }}" class="funky-button funky-button--primary funky-hero__cta">
+        {{ section.settings.button_label }}
+      </a>
+    {% endif %}
+
+    {% if section.settings.show_rating %}
+      <div class="funky-hero__rating">
+        <span class="funky-hero__rating-source">{{ section.settings.rating_source }}</span>
+        <span class="funky-hero__rating-stars">★★★★★</span>
+        <span class="funky-hero__rating-text">{{ section.settings.rating_text }}</span>
+      </div>
+    {% endif %}
+  </div>
+
+  {% if section.blocks.size > 0 %}
+    <div class="funky-hero__cards">
+      {% for block in section.blocks %}
+        <div class="funky-hero__card" {{ block.shopify_attributes }}>
+          <div class="funky-hero__card-media">
+            {% if block.settings.badge != blank %}
+              <span class="funky-hero__card-badge">{{ block.settings.badge }}</span>
+            {% endif %}
+            {% if block.settings.image %}
+              {{ block.settings.image | image_url: width: 600 | image_tag }}
+            {% endif %}
+          </div>
+          <div class="funky-hero__card-info">
+            <div class="funky-hero__card-name">{{ block.settings.title }}</div>
+            <div class="funky-hero__card-prices">
+              <span class="funky-hero__card-price">{{ block.settings.price }}</span>
+              {% if block.settings.compare_at_price != blank %}
+                <span class="funky-hero__card-compare">{{ block.settings.compare_at_price }}</span>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+</section>
+
+{% stylesheet %}
+  .funky-hero {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr minmax(320px, 460px);
+    align-items: center;
+    gap: 40px;
+    min-height: 640px;
+    padding: 72px 96px 72px 48px;
+    background-color: var(--funky-navy, #1f2049);
+    color: var(--funky-cream, #fcfcf7);
+    overflow: hidden;
+  }
+
+  .funky-hero__media {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .funky-hero__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .funky-hero__scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.05));
+  }
+
+  .funky-hero__content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-width: 560px;
+  }
+
+  .funky-hero__title {
+    margin: 0;
+    font-weight: 900;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    text-shadow: 10px 6px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  .funky-hero__subtitle {
+    margin: 0;
+    font-size: 18px;
+    max-width: 420px;
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  .funky-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    padding: 16px 32px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 15px;
+    text-decoration: none;
+    transition: transform 200ms ease-out, background-color 200ms ease-out;
+  }
+
+  .funky-button--primary {
+    background-color: var(--funky-orange, #ff6a1f);
+    color: var(--funky-cream, #fcfcf7);
+    box-shadow: 6px 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  .funky-button--primary:hover {
+    transform: scale(1.05);
+    background-color: var(--funky-orange-dark, #e8550f);
+  }
+
+  .funky-hero__rating {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: fit-content;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background-color: rgba(255, 255, 255, 0.82);
+  }
+
+  .funky-hero__rating-source {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--funky-navy, #1f2049);
+  }
+
+  .funky-hero__rating-stars {
+    color: #f4c430;
+    font-size: 14px;
+    letter-spacing: 2px;
+  }
+
+  .funky-hero__rating-text {
+    font-size: 14px;
+    color: var(--funky-navy, #1f2049);
+  }
+
+  .funky-hero__cards {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: 20px;
+  }
+
+  .funky-hero__card {
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
+  }
+
+  .funky-hero__card-media {
+    position: relative;
+    aspect-ratio: 1 / 1;
+  }
+
+  .funky-hero__card-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .funky-hero__card-badge {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    z-index: 1;
+    padding: 5px 14px;
+    border-radius: 999px;
+    background-color: var(--funky-orange, #ff6a1f);
+    color: #fcfcf7;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .funky-hero__card-info {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .funky-hero__card-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--funky-navy, #1f2049);
+  }
+
+  .funky-hero__card-prices {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+  }
+
+  .funky-hero__card-price {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--funky-navy, #1f2049);
+  }
+
+  .funky-hero__card-compare {
+    font-size: 14px;
+    color: #8a8a99;
+    text-decoration: line-through;
+  }
+
+  @media (max-width: 900px) {
+    .funky-hero {
+      grid-template-columns: 1fr;
+      padding: 48px 24px;
+    }
+
+    .funky-hero__cards {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Funky hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background image"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Dopamine for your home"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Funk'y maakt gedurfde, chunky woonaccessoires die van elke ruimte een statement maken. Gemaakt voor mensen die liever opvallen dan opgaan."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Start met winkelen"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button link"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Show rating badge",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "rating_source",
+      "label": "Rating source",
+      "default": "Google"
+    },
+    {
+      "type": "text",
+      "id": "rating_text",
+      "label": "Rating text",
+      "default": "4.8/5 · 10.000+ tevreden klanten"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product_card",
+      "name": "Product card",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Product" },
+        { "type": "text", "id": "price", "label": "Price", "default": "€0,00" },
+        { "type": "text", "id": "compare_at_price", "label": "Compare-at price" },
+        { "type": "text", "id": "badge", "label": "Badge label" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Funky hero",
+      "blocks": [
+        { "type": "product_card", "settings": { "title": "Wandspiegel Semon", "price": "€99,99", "compare_at_price": "€120,00", "badge": "Sale!" } },
+        { "type": "product_card", "settings": { "title": "Orange lamp", "price": "€54,00", "badge": "Bestseller" } },
+        { "type": "product_card", "settings": { "title": "Vaas Ripple", "price": "€39,00", "badge": "Nieuw" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

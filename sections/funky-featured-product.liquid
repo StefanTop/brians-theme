@@ -1,0 +1,194 @@
+{% comment %}
+  Featured product spotlight: a main image, two detail shots, and copy with a
+  price and CTA. Pulls from a real product when one is selected, otherwise
+  falls back to the section's own text settings.
+{% endcomment %}
+
+{% liquid
+  assign product = section.settings.product
+  if product
+    assign title = product.title
+    assign price = product.price | money
+    assign product_url = product.url
+    assign main_image = product.featured_image
+  else
+    assign title = section.settings.title
+    assign price = section.settings.price
+    assign product_url = section.settings.button_url
+    assign main_image = section.settings.main_image
+  endif
+%}
+
+<section class="funky-featured">
+  <div class="funky-featured__gallery">
+    <div class="funky-featured__main">
+      {% if main_image %}
+        {{ main_image | image_url: width: 1200 | image_tag }}
+      {% endif %}
+    </div>
+    <div class="funky-featured__details">
+      {% if section.settings.detail_image_1 %}
+        <div class="funky-featured__detail">{{ section.settings.detail_image_1 | image_url: width: 600 | image_tag }}</div>
+      {% endif %}
+      {% if section.settings.detail_image_2 %}
+        <div class="funky-featured__detail">{{ section.settings.detail_image_2 | image_url: width: 600 | image_tag }}</div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="funky-featured__content">
+    <div class="funky-featured__eyebrow">{{ section.settings.eyebrow }}</div>
+    <h3 class="funky-featured__title">{{ title }}</h3>
+    <p class="funky-featured__description">{{ section.settings.description }}</p>
+    <div class="funky-featured__price">{{ price }}</div>
+    <div class="funky-featured__actions">
+      <a href="{{ product_url | default: '#' }}" class="funky-button funky-button--dark">{{ section.settings.button_label }}</a>
+      {% if section.settings.link_label != blank %}
+        <a href="{{ section.settings.link_url | default: '#' }}" class="funky-featured__link">{{ section.settings.link_label }}</a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .funky-featured {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: stretch;
+    padding: 24px 48px 80px;
+  }
+
+  .funky-featured__gallery {
+    display: grid;
+    gap: 16px;
+  }
+
+  .funky-featured__main,
+  .funky-featured__detail {
+    border-radius: 14px;
+    overflow: hidden;
+    background-color: #f0f0f2;
+  }
+
+  .funky-featured__main {
+    aspect-ratio: 4 / 3;
+    height: 100%;
+  }
+
+  .funky-featured__main img,
+  .funky-featured__detail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .funky-featured__details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .funky-featured__detail {
+    aspect-ratio: 1 / 1;
+  }
+
+  .funky-featured__content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-top: 12px;
+    justify-content: space-between;
+  }
+
+  .funky-featured__eyebrow {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #6f6f80;
+  }
+
+  .funky-featured__title {
+    margin: 0;
+    font-size: 34px;
+    font-weight: 800;
+    color: var(--funky-navy, #1f2049);
+  }
+
+  .funky-featured__description {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #6f6f80;
+    max-width: 480px;
+  }
+
+  .funky-featured__price {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--funky-navy, #1f2049);
+  }
+
+  .funky-featured__actions {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+  }
+
+  .funky-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    padding: 16px 32px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 15px;
+    text-decoration: none;
+    transition: transform 200ms ease-out, background-color 200ms ease-out;
+  }
+
+  .funky-button--dark {
+    background-color: var(--funky-navy, #1f2049);
+    color: #fcfcf7;
+  }
+
+  .funky-button--dark:hover {
+    background-color: #ff6a20;
+  }
+
+  .funky-featured__link {
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: underline;
+    color: var(--funky-navy, #1f2049);
+  }
+
+  @media (max-width: 900px) {
+    .funky-featured {
+      grid-template-columns: 1fr;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Funky featured product",
+  "settings": [
+    { "type": "product", "id": "product", "label": "Product" },
+    { "type": "image_picker", "id": "main_image", "label": "Main image (fallback)" },
+    { "type": "image_picker", "id": "detail_image_1", "label": "Detail image 1" },
+    { "type": "image_picker", "id": "detail_image_2", "label": "Detail image 2" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Uitgelicht product" },
+    { "type": "text", "id": "title", "label": "Title (fallback)", "default": "Vase Ripple" },
+    { "type": "textarea", "id": "description", "label": "Description", "default": "A chunky little sun for your side table. Hand-finished, mouth-blown glass, and just enough glow to make Tuesday feel like a Friday." },
+    { "type": "text", "id": "price", "label": "Price (fallback)", "default": "€39,00" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Bekijk product" },
+    { "type": "url", "id": "button_url", "label": "Button link (fallback)" },
+    { "type": "text", "id": "link_label", "label": "Secondary link label", "default": "Alle meubels" },
+    { "type": "url", "id": "link_url", "label": "Secondary link" }
+  ],
+  "presets": [{ "name": "Funky featured product" }]
+}
+{% endschema %}
