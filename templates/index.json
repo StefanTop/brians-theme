@@ -76,7 +76,7 @@
         "benefit-1": {
           "type": "benefit",
           "settings": {
-            "icon": "🛡️",
+            "icon": "shield",
             "title": "Handmade in Europe",
             "subtitle": "Kleinschalig vakmanschap"
           }
@@ -84,7 +84,7 @@
         "benefit-2": {
           "type": "benefit",
           "settings": {
-            "icon": "🌱",
+            "icon": "lock",
             "title": "Duurzame materialen",
             "subtitle": "Bewust geproduceerd"
           }
@@ -92,7 +92,7 @@
         "benefit-3": {
           "type": "benefit",
           "settings": {
-            "icon": "💛",
+            "icon": "person",
             "title": "10.000+ tevreden klanten",
             "subtitle": "En groeiende"
           }
