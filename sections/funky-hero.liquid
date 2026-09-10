@@ -12,75 +12,84 @@
     <div class="funky-hero__scrim"></div>
   </div>
 
-  <div class="funky-hero__content">
-    <h1 class="funky-hero__title">{{ section.settings.heading }}</h1>
+  <div class="funky-hero__inner">
+    <div class="funky-hero__content">
+      <h1 class="funky-hero__title">{{ section.settings.heading }}</h1>
 
-    {% if section.settings.subheading != blank %}
-      <p class="funky-hero__subtitle">{{ section.settings.subheading }}</p>
-    {% endif %}
+      {% if section.settings.subheading != blank %}
+        <p class="funky-hero__subtitle">{{ section.settings.subheading }}</p>
+      {% endif %}
 
-    {% if section.settings.button_label != blank %}
-      <a href="{{ section.settings.button_url | default: '#' }}" class="funky-button funky-button--primary funky-hero__cta">
-        {{ section.settings.button_label }}
-      </a>
-    {% endif %}
+      {% if section.settings.button_label != blank %}
+        <a href="{{ section.settings.button_url | default: '#' }}" class="funky-button funky-button--primary funky-hero__cta">
+          {{ section.settings.button_label }}
+        </a>
+      {% endif %}
 
-    {% if section.settings.show_rating %}
-      <div class="funky-hero__rating">
-        <span class="funky-hero__rating-source">{{ section.settings.rating_source }}</span>
-        <span class="funky-hero__rating-stars">★★★★★</span>
-        <span class="funky-hero__rating-text">{{ section.settings.rating_text }}</span>
-      </div>
-    {% endif %}
-  </div>
+      {% if section.settings.show_rating %}
+        <div class="funky-hero__rating">
+          <span class="funky-hero__rating-source">{{ section.settings.rating_source }}</span>
+          <span class="funky-hero__rating-stars">★★★★★</span>
+          <span class="funky-hero__rating-text">{{ section.settings.rating_text }}</span>
+        </div>
+      {% endif %}
+    </div>
 
-  {% if section.blocks.size > 0 %}
-    <funky-hero-slider class="funky-hero__slider">
-      <div class="funky-hero__track" data-funky-hero-track>
-        <div class="funky-hero__thumb" data-funky-hero-thumb></div>
-      </div>
-      <div class="funky-hero__cards" data-funky-hero-cards>
-        {% for block in section.blocks %}
-          <div class="funky-hero__card" data-funky-hero-card {{ block.shopify_attributes }}>
-            <div class="funky-hero__card-content" data-funky-hero-card-content>
-              <div class="funky-hero__card-media">
-                {% if block.settings.badge != blank %}
-                  <span class="funky-hero__card-badge">{{ block.settings.badge }}</span>
-                {% endif %}
-                {% if block.settings.image %}
-                  {{ block.settings.image | image_url: width: 600 | image_tag }}
-                {% endif %}
-              </div>
-              <div class="funky-hero__card-info">
-                <div class="funky-hero__card-name">{{ block.settings.title }}</div>
-                <div class="funky-hero__card-prices">
-                  <span class="funky-hero__card-price">{{ block.settings.price }}</span>
-                  {% if block.settings.compare_at_price != blank %}
-                    <span class="funky-hero__card-compare">{{ block.settings.compare_at_price }}</span>
+    {% if section.blocks.size > 0 %}
+      <funky-hero-slider class="funky-hero__slider">
+        <div class="funky-hero__track" data-funky-hero-track>
+          <div class="funky-hero__thumb" data-funky-hero-thumb></div>
+        </div>
+        <div class="funky-hero__cards" data-funky-hero-cards>
+          {% for block in section.blocks %}
+            <div class="funky-hero__card" data-funky-hero-card {{ block.shopify_attributes }}>
+              <div class="funky-hero__card-content" data-funky-hero-card-content>
+                <div class="funky-hero__card-media">
+                  {% if block.settings.badge != blank %}
+                    <span class="funky-hero__card-badge">{{ block.settings.badge }}</span>
                   {% endif %}
+                  {% if block.settings.image %}
+                    {{ block.settings.image | image_url: width: 600 | image_tag }}
+                  {% endif %}
+                </div>
+                <div class="funky-hero__card-info">
+                  <div class="funky-hero__card-name">{{ block.settings.title }}</div>
+                  <div class="funky-hero__card-prices">
+                    <span class="funky-hero__card-price">{{ block.settings.price }}</span>
+                    {% if block.settings.compare_at_price != blank %}
+                      <span class="funky-hero__card-compare">{{ block.settings.compare_at_price }}</span>
+                    {% endif %}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        {% endfor %}
-      </div>
-    </funky-hero-slider>
-  {% endif %}
+          {% endfor %}
+        </div>
+      </funky-hero-slider>
+    {% endif %}
+  </div>
 </section>
 
 {% stylesheet %}
   .funky-hero {
     position: relative;
-    display: grid;
-    grid-template-columns: 1fr minmax(320px, 460px);
-    align-items: center;
-    gap: 40px;
     min-height: 640px;
-    padding: 72px 96px 72px 48px;
     background-color: var(--funky-navy, #1f2049);
     color: var(--funky-cream, #fcfcf7);
     font-family: var(--funky-font-body, "Inter", sans-serif);
     overflow: hidden;
+  }
+
+  .funky-hero__inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr minmax(320px, 460px);
+    align-items: center;
+    gap: 40px;
+    max-width: 1326px;
+    margin: 0 auto;
+    padding: 72px 96px 72px 48px;
   }
 
   .funky-hero__media {
@@ -295,7 +304,7 @@
   }
 
   @media (max-width: 900px) {
-    .funky-hero {
+    .funky-hero__inner {
       grid-template-columns: 1fr;
       padding: 48px 24px;
     }

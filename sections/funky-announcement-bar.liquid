@@ -4,29 +4,26 @@
 {% endcomment %}
 
 <div class="funky-announcement">
-  <div class="funky-announcement__messages">
-    {% for block in section.blocks %}
-      <span class="funky-announcement__message" {{ block.shopify_attributes }}>{{ block.settings.text }}</span>
-    {% endfor %}
-  </div>
+  <div class="funky-announcement__inner">
+    <div class="funky-announcement__messages">
+      {% for block in section.blocks %}
+        <span class="funky-announcement__message" {{ block.shopify_attributes }}>{{ block.settings.text }}</span>
+      {% endfor %}
+    </div>
 
-  <div class="funky-announcement__links">
-    {% if section.settings.service_url != blank %}
-      <a href="{{ section.settings.service_url }}" class="funky-announcement__link">{{ section.settings.service_label }}</a>
-    {% endif %}
-    {% if section.settings.inspiration_url != blank %}
-      <a href="{{ section.settings.inspiration_url }}" class="funky-announcement__link">{{ section.settings.inspiration_label }}</a>
-    {% endif %}
+    <div class="funky-announcement__links">
+      {% if section.settings.service_url != blank %}
+        <a href="{{ section.settings.service_url }}" class="funky-announcement__link">{{ section.settings.service_label }}</a>
+      {% endif %}
+      {% if section.settings.inspiration_url != blank %}
+        <a href="{{ section.settings.inspiration_url }}" class="funky-announcement__link">{{ section.settings.inspiration_label }}</a>
+      {% endif %}
+    </div>
   </div>
 </div>
 
 {% stylesheet %}
   .funky-announcement {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
-    padding: 10px 32px;
     background-color: #eaeaf4;
     color: var(--funky-navy, #1f2049);
     font-family: var(--funky-font-body, "Inter", sans-serif);
@@ -34,6 +31,16 @@
     font-weight: 500;
     overflow: hidden;
     white-space: nowrap;
+  }
+
+  .funky-announcement__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    max-width: 1326px;
+    margin: 0 auto;
+    padding: 10px 32px;
   }
 
   .funky-announcement__messages {

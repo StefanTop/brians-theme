@@ -3,39 +3,46 @@
 {% endcomment %}
 
 <section class="funky-categories">
-  {% if section.settings.heading != blank %}
-    <h2 class="funky-categories__heading">{{ section.settings.heading }}</h2>
-  {% endif %}
+  <div class="funky-categories__inner">
+    {% if section.settings.heading != blank %}
+      <h2 class="funky-categories__heading">{{ section.settings.heading }}</h2>
+    {% endif %}
 
-  <div class="funky-categories__grid">
-    {% for block in section.blocks %}
-      <a
-        href="{{ block.settings.collection.url | default: '#' }}"
-        class="funky-categories__card"
-        {{ block.shopify_attributes }}
-      >
-        <div class="funky-categories__media">
-          {% if block.settings.image %}
-            {{ block.settings.image | image_url: width: 600 | image_tag }}
-          {% elsif block.settings.collection.featured_image %}
-            {{ block.settings.collection.featured_image | image_url: width: 600 | image_tag }}
-          {% endif %}
-        </div>
-        <div class="funky-categories__label">
-          {{ block.settings.title | default: block.settings.collection.title }}
-        </div>
-      </a>
-    {% endfor %}
+    <div class="funky-categories__grid">
+      {% for block in section.blocks %}
+        <a
+          href="{{ block.settings.collection.url | default: '#' }}"
+          class="funky-categories__card"
+          {{ block.shopify_attributes }}
+        >
+          <div class="funky-categories__media">
+            {% if block.settings.image %}
+              {{ block.settings.image | image_url: width: 600 | image_tag }}
+            {% elsif block.settings.collection.featured_image %}
+              {{ block.settings.collection.featured_image | image_url: width: 600 | image_tag }}
+            {% endif %}
+          </div>
+          <div class="funky-categories__label">
+            {{ block.settings.title | default: block.settings.collection.title }}
+          </div>
+        </a>
+      {% endfor %}
+    </div>
   </div>
 </section>
 
 {% stylesheet %}
   .funky-categories {
+    font-family: var(--funky-font-body, "Inter", sans-serif);
+  }
+
+  .funky-categories__inner {
     display: flex;
     flex-direction: column;
     gap: 32px;
+    max-width: 1326px;
+    margin: 0 auto;
     padding: 64px 48px;
-    font-family: var(--funky-font-body, "Inter", sans-serif);
   }
 
   .funky-categories__heading {

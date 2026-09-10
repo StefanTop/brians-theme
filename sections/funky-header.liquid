@@ -4,46 +4,48 @@
 {% endcomment %}
 
 <header class="funky-header">
-  <nav class="funky-header__nav">
-    {% for block in section.blocks %}
-      <a href="{{ block.settings.url | default: '#' }}" class="funky-header__nav-link" {{ block.shopify_attributes }}>
-        {{ block.settings.title }}
-      </a>
-    {% endfor %}
-  </nav>
+  <div class="funky-header__inner">
+    <nav class="funky-header__nav">
+      {% for block in section.blocks %}
+        <a href="{{ block.settings.url | default: '#' }}" class="funky-header__nav-link" {{ block.shopify_attributes }}>
+          {{ block.settings.title }}
+        </a>
+      {% endfor %}
+    </nav>
 
-  <a href="{{ routes.root_url }}" class="funky-header__logo">
-    {% if section.settings.logo %}
-      {{ section.settings.logo | image_url: width: 200 | image_tag }}
-    {% else %}
-      {{ shop.name }}
-    {% endif %}
-  </a>
-
-  <div class="funky-header__icons">
-    <a href="{{ routes.search_url }}" class="funky-header__icon" aria-label="Zoeken">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--funky-navy, #1f2049)" stroke-width="2">
-        <circle cx="11" cy="11" r="7"></circle>
-        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-      </svg>
-    </a>
-
-    {% if shop.customer_accounts_enabled %}
-      <shopify-account menu="{{ section.settings.customer_account_menu }}" class="funky-header__icon">
-        {{ 'icon-account.svg' | inline_asset_content }}
-      </shopify-account>
-    {% else %}
-      <a href="{{ routes.account_url }}" class="funky-header__icon" aria-label="Account">
-        {{ 'icon-account.svg' | inline_asset_content }}
-      </a>
-    {% endif %}
-
-    <a href="{{ routes.cart_url }}" class="funky-header__cart" aria-label="Winkelwagen">
-      {{ 'icon-cart.svg' | inline_asset_content }}
-      {% if cart.item_count > 0 %}
-        <span class="funky-header__cart-count">{{ cart.item_count }}</span>
+    <a href="{{ routes.root_url }}" class="funky-header__logo">
+      {% if section.settings.logo %}
+        {{ section.settings.logo | image_url: width: 200 | image_tag }}
+      {% else %}
+        {{ shop.name }}
       {% endif %}
     </a>
+
+    <div class="funky-header__icons">
+      <a href="{{ routes.search_url }}" class="funky-header__icon" aria-label="Zoeken">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--funky-navy, #1f2049)" stroke-width="2">
+          <circle cx="11" cy="11" r="7"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </a>
+
+      {% if shop.customer_accounts_enabled %}
+        <shopify-account menu="{{ section.settings.customer_account_menu }}" class="funky-header__icon">
+          {{ 'icon-account.svg' | inline_asset_content }}
+        </shopify-account>
+      {% else %}
+        <a href="{{ routes.account_url }}" class="funky-header__icon" aria-label="Account">
+          {{ 'icon-account.svg' | inline_asset_content }}
+        </a>
+      {% endif %}
+
+      <a href="{{ routes.cart_url }}" class="funky-header__cart" aria-label="Winkelwagen">
+        {{ 'icon-cart.svg' | inline_asset_content }}
+        {% if cart.item_count > 0 %}
+          <span class="funky-header__cart-count">{{ cart.item_count }}</span>
+        {% endif %}
+      </a>
+    </div>
   </div>
 </header>
 
@@ -52,14 +54,19 @@
     position: sticky;
     top: 0;
     z-index: 100;
+    background: var(--funky-cream, #fcfcf7);
+    border-bottom: 1.5px solid rgba(31, 32, 73, 0.15);
+    font-family: var(--funky-font-body, "Inter", sans-serif);
+  }
+
+  .funky-header__inner {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
     gap: 24px;
+    max-width: 1326px;
+    margin: 0 auto;
     padding: 17px 32px;
-    background: var(--funky-cream, #fcfcf7);
-    border-bottom: 1.5px solid rgba(31, 32, 73, 0.15);
-    font-family: var(--funky-font-body, "Inter", sans-serif);
   }
 
   .funky-header__nav {
@@ -163,7 +170,7 @@
   }
 
   @media (max-width: 900px) {
-    .funky-header {
+    .funky-header__inner {
       grid-template-columns: auto 1fr auto;
       padding: 14px 20px;
     }

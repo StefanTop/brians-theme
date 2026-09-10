@@ -20,44 +20,51 @@
 %}
 
 <section class="funky-featured">
-  <div class="funky-featured__gallery">
-    <div class="funky-featured__main">
-      {% if main_image %}
-        {{ main_image | image_url: width: 1200 | image_tag }}
-      {% endif %}
+  <div class="funky-featured__inner">
+    <div class="funky-featured__gallery">
+      <div class="funky-featured__main">
+        {% if main_image %}
+          {{ main_image | image_url: width: 1200 | image_tag }}
+        {% endif %}
+      </div>
+      <div class="funky-featured__details">
+        {% if section.settings.detail_image_1 %}
+          <div class="funky-featured__detail">{{ section.settings.detail_image_1 | image_url: width: 600 | image_tag }}</div>
+        {% endif %}
+        {% if section.settings.detail_image_2 %}
+          <div class="funky-featured__detail">{{ section.settings.detail_image_2 | image_url: width: 600 | image_tag }}</div>
+        {% endif %}
+      </div>
     </div>
-    <div class="funky-featured__details">
-      {% if section.settings.detail_image_1 %}
-        <div class="funky-featured__detail">{{ section.settings.detail_image_1 | image_url: width: 600 | image_tag }}</div>
-      {% endif %}
-      {% if section.settings.detail_image_2 %}
-        <div class="funky-featured__detail">{{ section.settings.detail_image_2 | image_url: width: 600 | image_tag }}</div>
-      {% endif %}
-    </div>
-  </div>
 
-  <div class="funky-featured__content">
-    <div class="funky-featured__eyebrow">{{ section.settings.eyebrow }}</div>
-    <h3 class="funky-featured__title">{{ title }}</h3>
-    <p class="funky-featured__description">{{ section.settings.description }}</p>
-    <div class="funky-featured__price">{{ price }}</div>
-    <div class="funky-featured__actions">
-      <a href="{{ product_url | default: '#' }}" class="funky-button funky-button--dark">{{ section.settings.button_label }}</a>
-      {% if section.settings.link_label != blank %}
-        <a href="{{ section.settings.link_url | default: '#' }}" class="funky-featured__link">{{ section.settings.link_label }}</a>
-      {% endif %}
+    <div class="funky-featured__content">
+      <div class="funky-featured__eyebrow">{{ section.settings.eyebrow }}</div>
+      <h3 class="funky-featured__title">{{ title }}</h3>
+      <p class="funky-featured__description">{{ section.settings.description }}</p>
+      <div class="funky-featured__price">{{ price }}</div>
+      <div class="funky-featured__actions">
+        <a href="{{ product_url | default: '#' }}" class="funky-button funky-button--dark">{{ section.settings.button_label }}</a>
+        {% if section.settings.link_label != blank %}
+          <a href="{{ section.settings.link_url | default: '#' }}" class="funky-featured__link">{{ section.settings.link_label }}</a>
+        {% endif %}
+      </div>
     </div>
   </div>
 </section>
 
 {% stylesheet %}
   .funky-featured {
+    font-family: var(--funky-font-body, "Inter", sans-serif);
+  }
+
+  .funky-featured__inner {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 48px;
     align-items: stretch;
+    max-width: 1326px;
+    margin: 0 auto;
     padding: 24px 48px 80px;
-    font-family: var(--funky-font-body, "Inter", sans-serif);
   }
 
   .funky-featured__gallery {
@@ -168,7 +175,7 @@
   }
 
   @media (max-width: 900px) {
-    .funky-featured {
+    .funky-featured__inner {
       grid-template-columns: 1fr;
     }
   }

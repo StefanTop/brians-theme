@@ -4,39 +4,46 @@
 {% endcomment %}
 
 <section class="funky-inspiration">
-  <div class="funky-inspiration__content">
-    <h2 class="funky-inspiration__heading">{{ section.settings.heading }}</h2>
-    <p class="funky-inspiration__text">{{ section.settings.text_1 }}</p>
-    {% if section.settings.text_2 != blank %}
-      <p class="funky-inspiration__text">{{ section.settings.text_2 }}</p>
-    {% endif %}
-    <div class="funky-inspiration__actions">
-      <a href="{{ section.settings.button_url | default: '#' }}" class="funky-button funky-button--dark">{{ section.settings.button_label }}</a>
-      {% if section.settings.link_label != blank %}
-        <a href="{{ section.settings.link_url | default: '#' }}" class="funky-inspiration__link">{{ section.settings.link_label }}</a>
+  <div class="funky-inspiration__inner">
+    <div class="funky-inspiration__content">
+      <h2 class="funky-inspiration__heading">{{ section.settings.heading }}</h2>
+      <p class="funky-inspiration__text">{{ section.settings.text_1 }}</p>
+      {% if section.settings.text_2 != blank %}
+        <p class="funky-inspiration__text">{{ section.settings.text_2 }}</p>
       {% endif %}
-    </div>
-  </div>
-
-  <div class="funky-inspiration__grid">
-    {% for block in section.blocks limit: 4 %}
-      <div class="funky-inspiration__image funky-inspiration__image--{{ forloop.index }}" {{ block.shopify_attributes }}>
-        {% if block.settings.image %}
-          {{ block.settings.image | image_url: width: 700 | image_tag }}
+      <div class="funky-inspiration__actions">
+        <a href="{{ section.settings.button_url | default: '#' }}" class="funky-button funky-button--dark">{{ section.settings.button_label }}</a>
+        {% if section.settings.link_label != blank %}
+          <a href="{{ section.settings.link_url | default: '#' }}" class="funky-inspiration__link">{{ section.settings.link_label }}</a>
         {% endif %}
       </div>
-    {% endfor %}
+    </div>
+
+    <div class="funky-inspiration__grid">
+      {% for block in section.blocks limit: 4 %}
+        <div class="funky-inspiration__image funky-inspiration__image--{{ forloop.index }}" {{ block.shopify_attributes }}>
+          {% if block.settings.image %}
+            {{ block.settings.image | image_url: width: 700 | image_tag }}
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
   </div>
 </section>
 
 {% stylesheet %}
   .funky-inspiration {
+    font-family: var(--funky-font-body, "Inter", sans-serif);
+  }
+
+  .funky-inspiration__inner {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 56px;
     align-items: center;
+    max-width: 1326px;
+    margin: 0 auto;
     padding: 96px 48px;
-    font-family: var(--funky-font-body, "Inter", sans-serif);
   }
 
   .funky-inspiration__content {
@@ -137,7 +144,7 @@
   }
 
   @media (max-width: 900px) {
-    .funky-inspiration {
+    .funky-inspiration__inner {
       grid-template-columns: 1fr;
     }
   }

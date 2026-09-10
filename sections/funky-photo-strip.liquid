@@ -3,19 +3,23 @@
 {% endcomment %}
 
 <div class="funky-photo-strip">
-  {% for block in section.blocks %}
-    <div class="funky-photo-strip__item" {{ block.shopify_attributes }}>
-      {% if block.settings.image %}
-        {{ block.settings.image | image_url: width: 500 | image_tag }}
-      {% endif %}
-    </div>
-  {% endfor %}
+  <div class="funky-photo-strip__inner">
+    {% for block in section.blocks %}
+      <div class="funky-photo-strip__item" {{ block.shopify_attributes }}>
+        {% if block.settings.image %}
+          {{ block.settings.image | image_url: width: 500 | image_tag }}
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
 </div>
 
 {% stylesheet %}
-  .funky-photo-strip {
+  .funky-photo-strip__inner {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
+    max-width: 1326px;
+    margin: 0 auto;
     padding: 0 48px 48px;
   }
 
@@ -32,7 +36,7 @@
   }
 
   @media (max-width: 900px) {
-    .funky-photo-strip {
+    .funky-photo-strip__inner {
       grid-template-columns: repeat(3, 1fr);
     }
   }

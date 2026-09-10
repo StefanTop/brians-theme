@@ -13,6 +13,7 @@
 %}
 
 <footer class="funky-footer">
+ <div class="funky-footer__inner">
   <div class="funky-footer__grid">
     <div class="funky-footer__brand">
       <a href="{{ routes.root_url }}" class="funky-footer__logo">
@@ -84,17 +85,23 @@
     <div class="funky-footer__copyright">&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. Alle rechten voorbehouden.</div>
     <a href="#top" class="funky-footer__back-to-top">Terug naar boven ↑</a>
   </div>
+ </div>
 </footer>
 
 {% stylesheet %}
   .funky-footer {
     background-color: var(--funky-navy, #1f2049);
     color: var(--funky-cream, #fcfcf7);
+    font-family: var(--funky-font-body, "Inter", sans-serif);
+  }
+
+  .funky-footer__inner {
+    max-width: 1326px;
+    margin: 0 auto;
     padding: 56px 48px 32px;
     display: flex;
     flex-direction: column;
     gap: 40px;
-    font-family: var(--funky-font-body, "Inter", sans-serif);
   }
 
   .funky-footer__grid {
