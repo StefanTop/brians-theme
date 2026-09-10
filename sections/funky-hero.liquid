@@ -35,29 +35,36 @@
   </div>
 
   {% if section.blocks.size > 0 %}
-    <div class="funky-hero__cards">
-      {% for block in section.blocks %}
-        <div class="funky-hero__card" {{ block.shopify_attributes }}>
-          <div class="funky-hero__card-media">
-            {% if block.settings.badge != blank %}
-              <span class="funky-hero__card-badge">{{ block.settings.badge }}</span>
-            {% endif %}
-            {% if block.settings.image %}
-              {{ block.settings.image | image_url: width: 600 | image_tag }}
-            {% endif %}
-          </div>
-          <div class="funky-hero__card-info">
-            <div class="funky-hero__card-name">{{ block.settings.title }}</div>
-            <div class="funky-hero__card-prices">
-              <span class="funky-hero__card-price">{{ block.settings.price }}</span>
-              {% if block.settings.compare_at_price != blank %}
-                <span class="funky-hero__card-compare">{{ block.settings.compare_at_price }}</span>
-              {% endif %}
+    <funky-hero-slider class="funky-hero__slider">
+      <div class="funky-hero__track" data-funky-hero-track>
+        <div class="funky-hero__thumb" data-funky-hero-thumb></div>
+      </div>
+      <div class="funky-hero__cards" data-funky-hero-cards>
+        {% for block in section.blocks %}
+          <div class="funky-hero__card" data-funky-hero-card {{ block.shopify_attributes }}>
+            <div class="funky-hero__card-content" data-funky-hero-card-content>
+              <div class="funky-hero__card-media">
+                {% if block.settings.badge != blank %}
+                  <span class="funky-hero__card-badge">{{ block.settings.badge }}</span>
+                {% endif %}
+                {% if block.settings.image %}
+                  {{ block.settings.image | image_url: width: 600 | image_tag }}
+                {% endif %}
+              </div>
+              <div class="funky-hero__card-info">
+                <div class="funky-hero__card-name">{{ block.settings.title }}</div>
+                <div class="funky-hero__card-prices">
+                  <span class="funky-hero__card-price">{{ block.settings.price }}</span>
+                  {% if block.settings.compare_at_price != blank %}
+                    <span class="funky-hero__card-compare">{{ block.settings.compare_at_price }}</span>
+                  {% endif %}
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      {% endfor %}
-    </div>
+        {% endfor %}
+      </div>
+    </funky-hero-slider>
   {% endif %}
 </section>
 
@@ -169,18 +176,62 @@
     color: var(--funky-navy, #1f2049);
   }
 
-  .funky-hero__cards {
+  .funky-hero__slider {
     position: relative;
     z-index: 1;
-    display: grid;
+    display: flex;
+    align-items: stretch;
     gap: 20px;
+    max-width: 460px;
+    width: 100%;
+    justify-self: end;
+  }
+
+  .funky-hero__track {
+    position: relative;
+    width: 8px;
+    margin-right: 8px;
+    border-radius: 999px;
+    cursor: pointer;
+    touch-action: none;
+    background-color: rgba(74, 74, 74, 0.52);
+  }
+
+  .funky-hero__thumb {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 30%;
+    border-radius: 999px;
+    background-color: var(--funky-cream, #fcfcf7);
+    opacity: 0.79;
+    cursor: grab;
+    transition: top 120ms ease-out;
+  }
+
+  .funky-hero__thumb:active {
+    cursor: grabbing;
+    transition: none;
+  }
+
+  .funky-hero__cards {
+    position: relative;
+    flex: 1;
+    display: grid;
   }
 
   .funky-hero__card {
+    grid-column: 1;
+    grid-row: 1;
     background: #fff;
     border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
+    transition: transform 450ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 450ms ease;
+  }
+
+  .funky-hero__card-content {
+    transition: opacity 350ms ease;
   }
 
   .funky-hero__card-media {
@@ -246,11 +297,113 @@
       padding: 48px 24px;
     }
 
-    .funky-hero__cards {
-      grid-template-columns: repeat(3, 1fr);
+    .funky-hero__slider {
+      max-width: 320px;
     }
   }
 {% endstylesheet %}
+
+{% javascript %}
+  class FunkyHeroSlider extends HTMLElement {
+    connectedCallback() {
+      this.track = this.querySelector('[data-funky-hero-track]');
+      this.thumb = this.querySelector('[data-funky-hero-thumb]');
+      this.cards = Array.from(this.querySelectorAll('[data-funky-hero-card]'));
+      this.count = this.cards.length;
+      this.activeIndex = 0;
+      this.dragging = false;
+
+      if (this.count === 0) return;
+
+      this.onThumbDown = this.onThumbDown.bind(this);
+      this.onPointerMove = this.onPointerMove.bind(this);
+      this.onPointerUp = this.onPointerUp.bind(this);
+      this.onTrackClick = this.onTrackClick.bind(this);
+      this.onCardClick = this.onCardClick.bind(this);
+
+      this.thumb.addEventListener('pointerdown', this.onThumbDown);
+      window.addEventListener('pointermove', this.onPointerMove);
+      window.addEventListener('pointerup', this.onPointerUp);
+      this.track.addEventListener('click', this.onTrackClick);
+      this.cards.forEach((card) => card.addEventListener('click', this.onCardClick));
+
+      this.render();
+    }
+
+    disconnectedCallback() {
+      window.removeEventListener('pointermove', this.onPointerMove);
+      window.removeEventListener('pointerup', this.onPointerUp);
+    }
+
+    pctFromEvent(event) {
+      const rect = this.track.getBoundingClientRect();
+      return Math.max(0, Math.min(1, (event.clientY - rect.top) / rect.height));
+    }
+
+    indexFromPct(pct) {
+      if (this.count <= 1) return 0;
+      return Math.round(pct * (this.count - 1));
+    }
+
+    onThumbDown(event) {
+      this.dragging = true;
+      event.preventDefault();
+    }
+
+    onPointerMove(event) {
+      if (!this.dragging) return;
+      this.setActiveIndex(this.indexFromPct(this.pctFromEvent(event)));
+    }
+
+    onPointerUp() {
+      this.dragging = false;
+    }
+
+    onTrackClick(event) {
+      if (event.target === this.thumb) return;
+      this.setActiveIndex(this.indexFromPct(this.pctFromEvent(event)));
+    }
+
+    onCardClick(event) {
+      const card = event.currentTarget;
+      const index = this.cards.indexOf(card);
+      if (index !== this.activeIndex) {
+        event.preventDefault();
+        this.setActiveIndex(index);
+      }
+    }
+
+    setActiveIndex(index) {
+      this.activeIndex = Math.max(0, Math.min(this.count - 1, index));
+      this.render();
+    }
+
+    render() {
+      this.cards.forEach((card, index) => {
+        const stackPos = (index - this.activeIndex + this.count) % this.count;
+        const rotation = stackPos === 0 ? 0 : (stackPos % 2 === 1 ? -1 : 1) * (4 + (stackPos - 1) * 2);
+        const translateY = stackPos * 10;
+        card.style.transform = `translateY(${translateY}px) rotate(${rotation}deg)`;
+        card.style.zIndex = this.count - stackPos;
+        card.style.boxShadow = stackPos === 0
+          ? '0 24px 48px rgba(0, 0, 0, 0.22)'
+          : '0 12px 24px rgba(0, 0, 0, 0.14)';
+
+        const content = card.querySelector('[data-funky-hero-card-content]');
+        if (content) {
+          content.style.opacity = stackPos === 0 ? '1' : '0';
+          content.style.pointerEvents = stackPos === 0 ? 'auto' : 'none';
+        }
+      });
+
+      const thumbTravel = 70;
+      const pct = this.count > 1 ? this.activeIndex / (this.count - 1) : 0;
+      this.thumb.style.top = `${pct * thumbTravel}%`;
+    }
+  }
+
+  customElements.define('funky-hero-slider', FunkyHeroSlider);
+{% endjavascript %}
 
 {% schema %}
 {
